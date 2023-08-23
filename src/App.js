@@ -42,24 +42,14 @@ function App() {
     });
   }
 
-  // setNotes((oldNotes) =>
-  //   oldNotes.map((oldNote) => {
-  //     return oldNote.id === currentNoteId
-  //       ? { ...oldNote, body: text }
-  //       : oldNote;
-  //   })
-  // );
-
-  // const deleteNote(){
-  //   setNotes((oldNotes)=>
-  //   oldNotes.map((oldNote)=>{
-  //     return oldNote.id===currentNoteId?
-  //     {
-  //       oldNotes
-  //     }
-  //   })
-  //   )
-  // }
+  function deleteNote(event, noteId) {
+    /* below line of colde works in this way:
+     * whenever a note is deleted, it is set to current note but since it
+     * doesnt exist in the array, it throws an error, hence this line of code is used
+     */
+    event.stopPropagation();
+    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  }
 
   function findCurrentNote() {
     return notes.find((note) => {
@@ -97,6 +87,7 @@ function App() {
               setCurrentNoteId={setCurrentNoteId}
               notes={notes}
               theme={theme}
+              deleteNote={deleteNote}
               currentNote={findCurrentNote}
             />
           </div>

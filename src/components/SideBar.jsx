@@ -14,6 +14,7 @@ export default function Sidebar(props) {
           {(note.body && note.body.split("\n")[0].split("#")) ||
             `Note${props.notes.length - index}`}
         </h4>
+        <button onClick={(event) => props.deleteNote(event, note.id)}>D</button>
       </div>
     </div>
   ));
