@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 import { nanoid } from "nanoid";
 import SideBar from "./components/SideBar";
 import NoteEditor from "./components/NoteEditor";
 import darkIcon from "./assets/icons8-dark-theme-100.png";
 import lightIcon from "./assets/icons8-sun-100.png";
-
+import toggleSideBarIcon from "./assets/icons8-double-left-100.png";
 function App() {
   const [notes, setNotes] = React.useState(
     JSON.parse(localStorage.getItem("notes")) || []
+  );
+  const [toggleSideBar, setToggleSideBar] = useState(
+    JSON.parse(localStorage.getItem("sidebar")) || false
   );
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || ""
@@ -18,9 +21,10 @@ function App() {
   );
   const [themeIcon, setThemeIcon] = React.useState(darkIcon);
   React.useEffect(() => {
+    localStorage.setItem("sidebar", JSON.stringify(toggleSideBar));
     localStorage.setItem("notes", JSON.stringify(notes));
     localStorage.setItem("theme", JSON.stringify(theme));
-  }, [notes, theme]);
+  }, [notes, theme, toggleSideBar]);
 
   function createNewNote() {
     const newNote = {
@@ -73,7 +77,7 @@ function App() {
         <img
           // width={40}
           // height={20}
-          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-lg
+          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-[40%]
             ${
               theme === "light"
                 ? "hover:bg-slate-400 bg-slate-300"
@@ -89,16 +93,39 @@ function App() {
         />
       </div>
       <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
-        <div className=" sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10 ">
-          <SideBar
-            newNote={createNewNote}
-            setCurrentNoteId={setCurrentNoteId}
-            notes={notes}
-            theme={theme}
-            deleteNote={deleteNote}
-            currentNote={currentNote}
-          />
-        </div>
+        <img
+          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:left-[5rem] left-[2rem] duration-200 rounded-[40%]
+          ${
+            toggleSideBar
+              ? "md:rotate-0 rotate-90 transition-transform duration-300"
+              : "md:rotate-180 -rotate-90 transition-transform duration-300"
+          }  
+          ${
+            theme === "light"
+              ? "hover:bg-slate-400 bg-slate-300"
+              : "hover:bg-slate-300 bg-slate-400"
+          }`}
+          src={toggleSideBarIcon}
+          onClick={() => {
+            setToggleSideBar((prevSetSideBar) => !prevSetSideBar);
+          }}
+        />
+
+        {toggleSideBar && (
+          <div
+            className={
+              "sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10"
+            }>
+            <SideBar
+              newNote={createNewNote}
+              setCurrentNoteId={setCurrentNoteId}
+              notes={notes}
+              theme={theme}
+              deleteNote={deleteNote}
+              currentNote={currentNote}
+            />
+          </div>
+        )}
         <div className="">
           {currentNoteId && notes.length > 0 && (
             <NoteEditor
@@ -137,11 +164,13 @@ function App() {
             : "text-slate-200 bg-slate-600"
         }`}>
       <div className="flex flex-col items-center">
-        <h1 className="text-6xl font-bold my-10">RightNote</h1>
+        <h1 className="text-5xl font-bold absolute top-[35%] my-10">
+          RightNote
+        </h1>
         <img
-          // width={40}
-          // height={20}
-          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-lg
+          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem]
+           md:right-[5rem] right-[2rem] duration-200 rounded-[40%]
+
             ${
               theme === "light"
                 ? "hover:bg-slate-400 bg-slate-300"
@@ -156,7 +185,7 @@ function App() {
           }
         />
         <button
-          className={`font-bold text-xl hover:text-slate-200 border-slate-400 hover:border-slate-600 hover:bg-slate-600 border-2 rounded-md px-2 py-1 `}
+          className={`font-bold text-xl absolute top-[50%] hover:text-slate-200 border-slate-400 hover:border-slate-600 hover:bg-slate-600 border-2 rounded-md px-2 py-1 `}
           onClick={createNewNote}>
           Create a new Note
         </button>
