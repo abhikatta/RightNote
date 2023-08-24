@@ -4,3 +4,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Silkscreen&family=Black+Ops+One&family=Maven+Pro&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap");
+
+.specialfont {
+  font-family: "Maven Pro";
+}

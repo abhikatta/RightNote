@@ -5,7 +5,7 @@ import SideBar from "./components/SideBar";
 import NoteEditor from "./components/NoteEditor";
 import darkIcon from "./assets/icons8-dark-theme-100.png";
 import lightIcon from "./assets/icons8-sun-100.png";
-// import deleteAllIcon from "./assets/icons8-delete-100.png";
+
 function App() {
   const [notes, setNotes] = React.useState(
     JSON.parse(localStorage.getItem("notes")) || []
@@ -65,7 +65,7 @@ function App() {
             ? "text-slate-600 bg-slate-200"
             : "text-slate-200 bg-slate-600"
         }`}>
-      <div className="flex flex-row">
+      <div className="flex specialfont flex-row">
         <h1 className="text-6xl font-bold my-10">RightNote</h1>
         <img
           width={40}
@@ -128,13 +128,12 @@ function App() {
     </div>
   ) : (
     <div className="justify-center text-white bg-slate-700 h-screen w-screen flex flex-col items-center">
-      <h1 className="text-6xl font-bold  items-center top-10 absolute">
-        ThotThoughts
-      </h1>
+      <h1 className="text-6xl font-bold my-10">RightNote</h1>
+
       <button
         className="font-bold text-xl border-slate-400 hover:border-slate-600 hover:bg-slate-600 border-2 rounded-md px-2 py-1"
         onClick={createNewNote}>
-        Create a new ThotThought
+        Create a new Note
       </button>
     </div>
   );
