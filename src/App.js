@@ -59,18 +59,21 @@ function App() {
 
   return notes.length > 0 ? (
     <div
-      className={`flex flex-col items-center  w-full h-full min-h-screen
+      className={`flex flex-col specialfont  items-center w-full h-full min-h-screen min-w-screen
         ${
           theme === "light"
             ? "text-slate-600 bg-slate-200"
             : "text-slate-200 bg-slate-600"
         }`}>
-      <div className="flex specialfont flex-row">
-        <h1 className="text-6xl font-bold my-10">RightNote</h1>
+      <div className="flex specialfont flex-row mx-10 ">
+        <h1 className=" lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
+          RightNote
+        </h1>
+
         <img
-          width={40}
-          height={20}
-          className={` transition-colors p-1 absolute top-[5%] right-[25%] duration-200 rounded-lg
+          // width={40}
+          // height={20}
+          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-lg
             ${
               theme === "light"
                 ? "hover:bg-slate-400 bg-slate-300"
@@ -85,28 +88,28 @@ function App() {
           }
         />
       </div>
-      <div className="flex flex-row justify-center items-center">
-        <div className="flex flex-row justify-center items-center">
-          <div className=" mr-[5%]">
-            <SideBar
-              newNote={createNewNote}
-              setCurrentNoteId={setCurrentNoteId}
-              notes={notes}
+      <div className="flex sm:flex-row flex-col items-center sm:mx-10 mx-3">
+        <div className=" sm:flex flex-row sm:flex-col w-[10rem] sm:mr-10 ">
+          <SideBar
+            newNote={createNewNote}
+            setCurrentNoteId={setCurrentNoteId}
+            notes={notes}
+            theme={theme}
+            deleteNote={deleteNote}
+            currentNote={currentNote}
+          />
+        </div>
+        <div className="">
+          {currentNoteId && notes.length > 0 && (
+            <NoteEditor
               theme={theme}
-              deleteNote={deleteNote}
               currentNote={currentNote}
+              updateNote={updateNote}
             />
-          </div>
-          <div className="">
-            {currentNoteId && notes.length > 0 && (
-              <NoteEditor
-                theme={theme}
-                currentNote={currentNote}
-                updateNote={updateNote}
-              />
-            )}
-          </div>
-          {/* <div className="flex flex-col ">
+          )}
+        </div>
+        {/* still not decided if I want to do this */}
+        {/* <div className="flex flex-col ">
             <img
               onClick={() => (
                 localStorage.clear(), console.log("deleted all notes")
@@ -123,11 +126,10 @@ function App() {
               //
             />
           </div> */}
-        </div>
       </div>
     </div>
   ) : (
-    <div className="justify-center text-white bg-slate-700 h-screen w-screen flex flex-col items-center">
+    <div className="justify-center text-white bg-slate-700 h-screen min-w-screen w-full flex flex-col items-center">
       <h1 className="text-6xl font-bold my-10">RightNote</h1>
 
       <button
