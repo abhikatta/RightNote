@@ -16,11 +16,12 @@ export default function Sidebar(props) {
           {(note.body && note.body.split("\n")[0].split("#")) ||
             `Note ${props.notes.length - index}`}
         </h4>
+
         <img
           onClick={(event) => props.deleteNote(event, note.id)}
           height={1}
           width={2}
-          className={` hover:cursor-pointer mx-2 w-[1rem] sm:relative absolute sm:right-0 right-[8rem] h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
+          className={` hover:cursor-pointer mx-2 w-[1rem] sm:relative absolute right-2 sm:right-0 bg-none h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
             ${
               props.theme === "light"
                 ? "bg-slate-300 "

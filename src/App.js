@@ -106,16 +106,17 @@ function App() {
               : "hover:bg-slate-300 bg-slate-400"
           }`}
           src={toggleSideBarIcon}
-          onClick={() => {
-            setToggleSideBar((prevSetSideBar) => !prevSetSideBar);
-          }}
+          onClick={() => setToggleSideBar((prevSetSideBar) => !prevSetSideBar)}
         />
-
-        {toggleSideBar && (
-          <div
-            className={
-              "sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10"
-            }>
+        <div
+          className={`sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10
+              ${
+                !toggleSideBar
+                  ? "scale-0 transition-transform duration-500"
+                  : "scale-100 transition-transform duration-500"
+              }
+              `}>
+          {toggleSideBar && (
             <SideBar
               newNote={createNewNote}
               setCurrentNoteId={setCurrentNoteId}
@@ -124,8 +125,9 @@ function App() {
               deleteNote={deleteNote}
               currentNote={currentNote}
             />
-          </div>
-        )}
+          )}
+        </div>
+
         <div className="">
           {currentNoteId && notes.length > 0 && (
             <NoteEditor
@@ -135,24 +137,6 @@ function App() {
             />
           )}
         </div>
-        {/* still not decided if I want to do this */}
-        {/* <div className="flex flex-col ">
-            <img
-              onClick={() => (
-                localStorage.clear(), console.log("deleted all notes")
-              )}
-              src={deleteAllIcon}
-              height={20}
-              width={40}
-              className={`top-10 right-[10%] absolute transition-colors p-1 duration-200 rounded-lg
-                ${
-                  theme === "light"
-                    ? "hover:bg-slate-400 bg-slate-300"
-                    : "hover:bg-slate-300 bg-slate-400"
-                }`}
-              //
-            />
-          </div> */}
       </div>
     </div>
   ) : (
