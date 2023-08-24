@@ -5,7 +5,7 @@ import SideBar from "./components/SideBar";
 import NoteEditor from "./components/NoteEditor";
 import darkIcon from "./assets/icons8-dark-theme-100.png";
 import lightIcon from "./assets/icons8-sun-100.png";
-import deleteAllIcon from "./assets/icons8-delete-100.png";
+// import deleteAllIcon from "./assets/icons8-delete-100.png";
 function App() {
   const [notes, setNotes] = React.useState(
     JSON.parse(localStorage.getItem("notes")) || []
@@ -13,11 +13,14 @@ function App() {
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || ""
   );
-  const [theme, setTheme] = React.useState("light");
+  const [theme, setTheme] = React.useState(
+    JSON.parse(localStorage.getItem("theme")) || "light"
+  );
   const [themeIcon, setThemeIcon] = React.useState(darkIcon);
   React.useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
+    localStorage.setItem("theme", JSON.stringify(theme));
+  }, [notes, theme]);
 
   function createNewNote() {
     const newNote = {
@@ -51,34 +54,37 @@ function App() {
     setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
   }
 
-  function findCurrentNote() {
-    return notes.find((note) => {
-      return note.id === currentNoteId;
-    });
-  }
+  const currentNote =
+    notes.find((note) => note.id === currentNoteId) || notes[0];
 
   return notes.length > 0 ? (
     <div
-      className={
-        theme === "light"
-          ? "flex flex-col items-center  text-slate-600 bg-slate-200 w-full h-full min-h-screen"
-          : "flex flex-col items-center  text-slate-200 bg-slate-600 w-full h-full min-h-screen"
-      }>
-      <h1 className="text-6xl font-bold my-10">ThotThoughts</h1>
-      <img
-        width={40}
-        height={20}
-        className={
+      className={`flex flex-col items-center  w-full h-full min-h-screen
+        ${
           theme === "light"
-            ? "hover:bg-slate-400 bg-slate-300 absolute top-10 right-[15%] transition-colors p-1 duration-200 rounded-lg"
-            : "hover:bg-slate-300 bg-slate-400 absolute top-10 right-[15%] transition-colors p-1 duration-200 rounded-lg"
-        }
-        src={themeIcon}
-        onClick={() =>
-          theme === "light"
-            ? (setTheme("dark"), setThemeIcon(lightIcon))
-            : (setTheme("light"), setThemeIcon(darkIcon))
-        }></img>
+            ? "text-slate-600 bg-slate-200"
+            : "text-slate-200 bg-slate-600"
+        }`}>
+      <div className="flex flex-row">
+        <h1 className="text-6xl font-bold my-10">RightNote</h1>
+        <img
+          width={40}
+          height={20}
+          className={` transition-colors p-1 absolute top-[5%] right-[25%] duration-200 rounded-lg
+            ${
+              theme === "light"
+                ? "hover:bg-slate-400 bg-slate-300"
+                : "hover:bg-slate-300 bg-slate-400"
+            }`}
+          src={themeIcon}
+          alt="ThemeIcon"
+          onClick={() =>
+            theme === "light"
+              ? (setTheme("dark"), setThemeIcon(lightIcon))
+              : (setTheme("light"), setThemeIcon(darkIcon))
+          }
+        />
+      </div>
       <div className="flex flex-row justify-center items-center">
         <div className="flex flex-row justify-center items-center">
           <div className=" mr-[5%]">
@@ -88,19 +94,19 @@ function App() {
               notes={notes}
               theme={theme}
               deleteNote={deleteNote}
-              currentNote={findCurrentNote}
+              currentNote={currentNote}
             />
           </div>
           <div className="">
             {currentNoteId && notes.length > 0 && (
               <NoteEditor
                 theme={theme}
-                currentNote={findCurrentNote()}
+                currentNote={currentNote}
                 updateNote={updateNote}
               />
             )}
           </div>
-          <div>
+          {/* <div className="flex flex-col ">
             <img
               onClick={() => (
                 localStorage.clear(), console.log("deleted all notes")
@@ -108,14 +114,15 @@ function App() {
               src={deleteAllIcon}
               height={20}
               width={40}
-              className={
-                theme === "light"
-                  ? "hover:bg-slate-400 bg-slate-300 absolute top-10 right-[10%] transition-colors p-1 duration-200 rounded-lg"
-                  : "hover:bg-slate-300 bg-slate-400 absolute top-10 right-[10%] transition-colors p-1 duration-200 rounded-lg"
-              }
+              className={`top-10 right-[10%] absolute transition-colors p-1 duration-200 rounded-lg
+                ${
+                  theme === "light"
+                    ? "hover:bg-slate-400 bg-slate-300"
+                    : "hover:bg-slate-300 bg-slate-400"
+                }`}
               //
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
