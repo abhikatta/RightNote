@@ -34,7 +34,7 @@ export default function Sidebar(props) {
   ));
 
   return (
-    <section className="flex flex-col text-center">
+    <section className="flex flex-col text-center ">
       <div className="flex flex-row pb-6 px-5 justify-center ">
         <h3 className="text-4xl mr-5">Notes</h3>
         <img

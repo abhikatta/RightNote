@@ -59,7 +59,7 @@ function App() {
 
   return notes.length > 0 ? (
     <div
-      className={`flex flex-col specialfont  items-center w-full h-full min-h-screen min-w-screen
+      className={`flex flex-col specialfont items-center w-full h-full min-h-screen min-w-screen
         ${
           theme === "light"
             ? "text-slate-600 bg-slate-200"
@@ -88,8 +88,8 @@ function App() {
           }
         />
       </div>
-      <div className="flex sm:flex-row flex-col items-center sm:mx-10 mx-3">
-        <div className=" sm:flex flex-row sm:flex-col w-[10rem] sm:mr-10 ">
+      <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
+        <div className=" sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10 ">
           <SideBar
             newNote={createNewNote}
             setCurrentNoteId={setCurrentNoteId}
@@ -129,14 +129,38 @@ function App() {
       </div>
     </div>
   ) : (
-    <div className="justify-center text-white bg-slate-700 h-screen min-w-screen w-full flex flex-col items-center">
-      <h1 className="text-6xl font-bold my-10">RightNote</h1>
-
-      <button
-        className="font-bold text-xl border-slate-400 hover:border-slate-600 hover:bg-slate-600 border-2 rounded-md px-2 py-1"
-        onClick={createNewNote}>
-        Create a new Note
-      </button>
+    <div
+      className={`flex flex-col specialfont items-center w-full h-full min-h-screen min-w-screen
+        ${
+          theme === "light"
+            ? "text-slate-600 bg-slate-200"
+            : "text-slate-200 bg-slate-600"
+        }`}>
+      <div className="flex flex-col items-center">
+        <h1 className="text-6xl font-bold my-10">RightNote</h1>
+        <img
+          // width={40}
+          // height={20}
+          className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-lg
+            ${
+              theme === "light"
+                ? "hover:bg-slate-400 bg-slate-300"
+                : "hover:bg-slate-300 bg-slate-400"
+            }`}
+          src={themeIcon}
+          alt="ThemeIcon"
+          onClick={() =>
+            theme === "light"
+              ? (setTheme("dark"), setThemeIcon(lightIcon))
+              : (setTheme("light"), setThemeIcon(darkIcon))
+          }
+        />
+        <button
+          className={`font-bold text-xl hover:text-slate-200 border-slate-400 hover:border-slate-600 hover:bg-slate-600 border-2 rounded-md px-2 py-1 `}
+          onClick={createNewNote}>
+          Create a new Note
+        </button>
+      </div>
     </div>
   );
 }
