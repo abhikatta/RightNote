@@ -6,7 +6,7 @@ function NoteEditor({ currentNote, updateNote, theme }) {
     <div data-color-mode={theme}>
       <MDEditor
         value={currentNote.body}
-        className="min-h-[30rem] w-[25rem] xs:w-[20rem] md:min-w-[35rem] md:max-w-[40rem] sm:min-w-[25rem] lg:w-[80rem] lg:min-w-[50rem]"
+        className="min-h-[30rem] absolute w-full xs:w-[20rem] md:min-w-[35rem] md:max-w-full sm:min-w-[25rem] lg:w-full lg:min-w-[50rem] lg:max-w-full"
         onChange={updateNote}
       />
     </div>
