@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDYyBhapRIGg3U8CQal-CMpz-J4LSNnpZY",
   authDomain: "notesapp-151c5.firebaseapp.com",
