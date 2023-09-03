@@ -6,11 +6,13 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase";
-
-function Login() {
+import GoogleIcon from "../icons/GoogleLogin";
+function Login({ setUserID }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [signUp, setSignUp] = useState(false);
+
   async function Signup(e) {
     e.preventDefault();
     try {
@@ -20,6 +22,7 @@ function Login() {
         password
       );
       console.log(response);
+      setUserID(response.user);
     } catch (error) {
       alert(error.message);
     }
@@ -31,6 +34,7 @@ function Login() {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(auth, email, password);
       console.log(response.user);
+      setUserID(response.user);
     } catch (error) {
       alert(error.message);
     }
@@ -40,14 +44,19 @@ function Login() {
     try {
       const provider = new GoogleAuthProvider();
       const response = await signInWithPopup(auth, provider);
+      setUserID(response.user);
     } catch (error) {
       console.log(error.message);
     }
   }
 
   return (
-    <div className="flex flex-col h-screen  w-screen bg-slate-600 justify-center items-center">
-      <h2 className="font-bold text-5xl  text-slate-100 mb-4">Login</h2>
+    <div
+      name="login"
+      className="flex flex-col h-screen  w-screen bg-slate-600 justify-center items-center">
+      <h2 className="font-bold text-5xl  text-slate-100 mb-4">
+        {signUp ? "SignUp" : "LogIn"}
+      </h2>
 
       <form className="flex flex-col items-center justify-center h-auto w-auto px-3 py-5">
         <input
@@ -63,31 +72,29 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <div
+          className="bg-slate-300 text-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 hover:text-slate-600 transition-colors duration-200 px-2 py-1 my-1"
+          onClick={() => setSignUp((prevSignUp) => !prevSignUp)}>
+          {signUp
+            ? "Already have an account? Log In"
+            : "Don't have an account? Click here to Sign Up"}
+        </div>
         <button
-          className="bg-slate-300 text-slate-800 rounded-lg border-green-600 border-2 px-2 py-1 my-1"
-          onClick={Signup}>
-          Sign Up
+          className="bg-slate-300 text-slate-800 rounded-lg hover:bg-slate-50 hover:text-slate-600 transition-colors duration-200 px-2 py-1 my-1"
+          onClick={signUp ? Signup : Login}>
+          {signUp ? "SignUp" : "LogIn"}
         </button>
-        <button
-          className="bg-slate-300 text-slate-800 rounded-lg border-green-600 border-2 px-2 py-1 my-1"
-          onClick={Login}>
-          Log In
-        </button>
-        <button
-          className="bg-slate-300 text-slate-800 rounded-lg border-green-600 border-2 px-2 py-1 my-1"
-          onClick={LoginWithGoogle}>
-          Sign In with Google
-        </button>
+        <div className="text-white">Or sign In with Google:</div>
+        {!signUp ? (
+          <div
+            className="hover:opacity-100 hover:-translate-y-1 cursor-pointer transition-all duration-300 flex flex-col opacity-30 "
+            onClick={LoginWithGoogle}>
+            <GoogleIcon height={50} width={50} />
+          </div>
+        ) : (
+          ""
+        )}
       </form>
-      {loading ? (
-        <div>
-          <h1>Loading...</h1>
-        </div>
-      ) : (
-        <div>
-          <h1>Not Loadinsadnjsad bshabhk fbAGDBBSJ...</h1>
-        </div>
-      )}
     </div>
   );
 }

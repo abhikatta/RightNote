@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 // import { nanoid } from "nanoid";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+
 import { addDoc, deleteDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db, notesCollection } from "./Firebase/firebase";
 import "./index.css";
@@ -17,7 +24,9 @@ function App() {
     JSON.parse(localStorage.getItem("sidebar")) || false
   );
   const [currentNoteId, setCurrentNoteId] = React.useState("");
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(
+    JSON.parse(localStorage.getItem("userID")) || auth.currentUser.uid
+  );
   const [theme, setTheme] = React.useState(
     JSON.parse(localStorage.getItem("theme")) || "light"
   );
@@ -46,7 +55,7 @@ function App() {
     }
   }, [notes, currentNoteId]);
   React.useEffect(() => {
-    // localStorage.setItem(`${userID.uid}`, JSON.stringify(notes));
+    // localStorage.setItem("notes", JSON.stringify(notes));
     localStorage.setItem("sidebar", JSON.stringify(sideBar));
     localStorage.setItem("theme", JSON.stringify(theme));
   }, [theme, sideBar]);
@@ -54,24 +63,22 @@ function App() {
     const newNote = {
       body: `# Title`,
     };
-    // const docRef = doc(db, `${userID.uid}`, currentNoteId);
-    // const newNoteRef = await addDoc(notesCollection, newNote);
-    const newNoteRef = await addDoc();
+    const newNoteRef = await addDoc(notesCollection, newNote);
     setCurrentNoteId(newNoteRef.id);
   }
   async function updateNote(text) {
-    const docRef = doc(db, `${userID.uid}`, currentNoteId);
+    const docRef = doc(db, "notes", currentNoteId);
     await setDoc(docRef, { body: text }, { merge: true });
   }
   async function deleteNote(noteId) {
-    const docRef = doc(db, `${userID.uid}`, noteId);
+    const docRef = doc(db, "notes", noteId);
     await deleteDoc(docRef);
   }
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
   // return <Login />;
   return !userID ? (
-    <Login setUserID={setUserID} />
+    <Login />
   ) : notes.length > 0 ? (
     <div
       className={`flex flex-col specialfont items-center w-full h-full min-h-screen min-w-screen
@@ -80,15 +87,11 @@ function App() {
             ? "text-slate-600 bg-slate-200"
             : "text-slate-200 bg-slate-600"
         }`}>
-      <div className="flex  specialfont flex-row mx-10 ">
+      <div className="flex specialfont flex-row mx-10 ">
         <h1 className=" lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
           RightNote
         </h1>
-        <div className="flex flex-col my-10">
-          <p>{userID.email}</p>
-          <p>{userID.displayName}</p>
-          <button onClick={setUserID("")}>Logout</button>
-        </div>
+
         {theme === "light" ? (
           <LightThemeIcon onClick={toggleTheme} theme={theme} />
         ) : (
