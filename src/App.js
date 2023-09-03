@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 // import { nanoid } from "nanoid";
 import { addDoc, deleteDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db, notesCollection } from "./Firebase/firebase";
+import { signOut } from "firebase/auth";
+
 import "./index.css";
 import SideBar from "./components/SideBar";
 import NoteEditor from "./components/NoteEditor";
@@ -9,24 +11,25 @@ import LightThemeIcon from "./icons/LightThemeIcon";
 import DarkThemeIcon from "./icons/DarkThemeIcon";
 import SideBarIcon from "./icons/SideBarIcon";
 import Login from "./screens/Login";
-import { redirect } from "react-router-dom";
 
 function App() {
   const [notes, setNotes] = React.useState([]);
-  const [sideBar, setSideBar] = useState(
+  const [sideBar, setSideBar] = React.useState(
     JSON.parse(localStorage.getItem("sidebar")) || false
   );
   const [currentNoteId, setCurrentNoteId] = React.useState("");
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = React.useState(
+    (auth.currentUser && auth.currentUser.uid) || null
+  );
   const [theme, setTheme] = React.useState(
     JSON.parse(localStorage.getItem("theme")) || "light"
   );
-  function toggleTheme() {
+  const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  }
-  function toggleSideBar() {
+  };
+  const toggleSideBar = () => {
     setSideBar((prevSideBar) => !prevSideBar);
-  }
+  };
 
   React.useEffect(() => {
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
@@ -46,27 +49,39 @@ function App() {
     }
   }, [notes, currentNoteId]);
   React.useEffect(() => {
-    // localStorage.setItem(`${userID.uid}`, JSON.stringify(notes));
+    // localStorage.setItem(`notes`, JSON.stringify(notes));
     localStorage.setItem("sidebar", JSON.stringify(sideBar));
     localStorage.setItem("theme", JSON.stringify(theme));
   }, [theme, sideBar]);
-  async function createNewNote() {
+  // Function to create a new note for the authenticated user
+  const createNewNote = async () => {
     const newNote = {
       body: `# Title`,
     };
     // const docRef = doc(db, `${userID.uid}`, currentNoteId);
-    // const newNoteRef = await addDoc(notesCollection, newNote);
-    const newNoteRef = await addDoc();
+    // const newNoteRef = await addDoc();
+    const newNoteRef = await addDoc(notesCollection, newNote);
     setCurrentNoteId(newNoteRef.id);
-  }
+  };
   async function updateNote(text) {
-    const docRef = doc(db, `${userID.uid}`, currentNoteId);
+    const docRef = doc(db, `notes`, currentNoteId);
     await setDoc(docRef, { body: text }, { merge: true });
   }
   async function deleteNote(noteId) {
-    const docRef = doc(db, `${userID.uid}`, noteId);
+    const docRef = doc(db, `notes`, noteId);
     await deleteDoc(docRef);
   }
+
+  const Logout = () => {
+    try {
+      alert("Are you sure you want to logout?");
+      signOut(auth);
+      setUserID(null);
+      console.log("Logged out");
+    } catch (error) {
+      setUserID(error.message);
+    }
+  };
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
   // return <Login />;
@@ -84,17 +99,26 @@ function App() {
         <h1 className=" lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
           RightNote
         </h1>
-        <div className="flex flex-col my-10">
-          <p>{userID.email}</p>
-          <p>{userID.displayName}</p>
-          <button onClick={setUserID("")}>Logout</button>
-        </div>
+
         {theme === "light" ? (
           <LightThemeIcon onClick={toggleTheme} theme={theme} />
         ) : (
           <DarkThemeIcon onClick={toggleTheme} theme={theme} />
         )}
+        {userID && (
+          <div className="flex absolute top-[15%] right-[5%] flex-col ">
+            {/* <p className="rounded-lg bg-slate-800">{userID}</p> */}
+            <p className="rounded-lg bg-slate-800">{userID && userID.email}</p>
+            <p className="rounded-lg bg-slate-800">{userID.displayName}</p>
+            <button
+              className="rounded-lg bg-slate-800 px-2 py-1"
+              onClick={Logout}>
+              Logout
+            </button>
+          </div>
+        )}
       </div>
+
       <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
         <SideBarIcon onClick={toggleSideBar} sideBar={sideBar} theme={theme} />
         <div
