@@ -6,9 +6,12 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+
 import { auth } from "../Firebase/firebase";
 import GoogleIcon from "../icons/GoogleLogin";
-function Login({ setUserID }) {
+import LightThemeIcon from "../icons/LightThemeIcon";
+import DarkThemeIcon from "../icons/DarkThemeIcon";
+function Login({ theme, toggleTheme, setUserID }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signUp, setSignUp] = useState(false);
@@ -63,44 +66,97 @@ function Login({ setUserID }) {
   }
 
   return !loading ? (
-    <div className="flex flex-col specialfont h-screen w-full bg-slate-600 justify-center items-center">
-      {/* TODO:
-      - Themes 
-      - Login as local 
-       */}
-      <h1 className="text-5xl font-light absolute text-slate-100 top-[10%]">
-        RightNote
-      </h1>
-      <h2 className="font-bold text-4xl text-center  text-slate-100 mb-4">
+    <div
+      className={`flex flex-col specialfont h-screen w-full  justify-center items-center
+     ${
+       theme === "light"
+         ? "text-slate-600 bg-slate-200"
+         : "text-slate-200 bg-slate-600"
+     }
+    `}>
+      {theme === "light" ? (
+        <LightThemeIcon onClick={toggleTheme} theme={theme} />
+      ) : (
+        <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+      )}
+
+      <h1 className="text-5xl font-light absolute  top-[10%]">RightNote</h1>
+      <h2
+        className={`font-bold text-4xl text-center mb-4
+      ${
+        theme === "light"
+          ? "text-slate-600 bg-slate-200"
+          : "text-slate-200 bg-slate-600"
+      }
+      `}>
         {signUp ? "Sign Up" : "Log In"}
       </h2>
-      <form className="flex flex-col items-center justify-center h-auto w-auto px-3 py-5">
+      <form
+        className={`flex flex-col items-center justify-center h-auto w-auto px-3 py-5
+    group 
+      ${
+        theme === "light"
+          ? "text-slate-600 bg-slate-200"
+          : "text-slate-200 bg-slate-600"
+      }
+      `}>
         <input
           placeholder="Email"
-          className="bg-slate-200 my-2 px-3 outline-none focus:outline-none h-10 w-auto py-1 rounded-lg"
+          className={`my-2 px-3  outline-none focus:outline-none h-10 w-auto py-1 rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           placeholder="Password"
           type="password"
-          className="bg-slate-200 my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg"
+          className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <div
-          className="bg-slate-300 text-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 hover:text-slate-600 transition-colors duration-200 px-2 py-1 my-1"
+          className={`rounded-lg cursor-pointer hover:-translate-y-0.5 transition-transform duration-200 px-2 py-1 my-1
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
           onClick={() => setSignUp((prevSignUp) => !prevSignUp)}>
           {signUp
             ? "Already have an account? Log In"
             : "Don't have an account? Click here to Sign Up"}
         </div>
         <button
-          className="bg-slate-300 text-slate-800 rounded-lg hover:bg-slate-50 hover:text-slate-600 transition-colors duration-200 px-2 py-1 my-1"
+          className={`rounded-lg hover:-translate-y-0.5 transition-transform duration-200 px-2 py-1 my-1
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
           onClick={signUp ? Signup : Login}>
           {signUp ? "Sign Up" : "Log In"}
         </button>
-        <div className="text-white">
+        <div
+          className={`
+          px-2 py-1 rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }`}>
           Or {signUp ? "Sign Up" : "Log In"} with Google:
         </div>
 
@@ -112,7 +168,7 @@ function Login({ setUserID }) {
       </form>
     </div>
   ) : (
-    <div className="h-screen bg-slate-600 w-screen flex flex-col justify-center items-center ">
+    <div className="h-screen  w-screen flex flex-col justify-center items-center ">
       <div className="flex flex-col hover:animate-bounce items-center animate-pulse">
         <img
           src="https://img.icons8.com/?size=1x&id=nhRO70R1MM5K&format=png"
@@ -120,7 +176,7 @@ function Login({ setUserID }) {
           alt="Logo"
           height={100}
         />
-        <p className="text-slate-50">Logging in to RightNote...</p>
+        <p className="">Logging in to RightNote...</p>
       </div>
     </div>
   );

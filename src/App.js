@@ -86,7 +86,7 @@ function App() {
     notes.find((note) => note.id === currentNoteId) || notes[0];
   // return <Login />;
   return !userID ? (
-    <Login setUserID={setUserID} />
+    <Login theme={theme} toggleTheme={toggleTheme} setUserID={setUserID} />
   ) : notes.length > 0 ? (
     <div
       className={`flex flex-col specialfont items-center w-full h-full min-h-screen min-w-screen
@@ -107,17 +107,13 @@ function App() {
         )}
         {userID && (
           <div className="flex absolute top-[15%] right-[5%] flex-col ">
-            <p className="text-center rounded-lg bg-slate-800 px-2 py-1">
-              {userID.email}
-            </p>
-            <p className="text-center rounded-lg bg-slate-800 px-2 py-1">
+            <p className="text-center rounded-lg px-2 py-1">{userID.email}</p>
+            <p className="text-center rounded-lg  px-2 py-1">
               {userID.displayName
                 ? userID.displayName
                 : userID.email.split("@")[0]}
             </p>
-            <button
-              className="rounded-lg bg-slate-800 px-2 py-1"
-              onClick={Logout}>
+            <button className="rounded-lg  px-2 py-1" onClick={Logout}>
               Logout
             </button>
           </div>
