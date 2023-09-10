@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rightnote/static/css/main.3df30091.css",
-    "main.js": "/rightnote/static/js/main.74e60297.js",
+    "main.css": "/rightnote/static/css/main.dfcc2a99.css",
+    "main.js": "/rightnote/static/js/main.8d8eeb0f.js",
     "static/js/787.aaa0f4de.chunk.js": "/rightnote/static/js/787.aaa0f4de.chunk.js",
     "index.html": "/rightnote/index.html",
-    "main.3df30091.css.map": "/rightnote/static/css/main.3df30091.css.map",
-    "main.74e60297.js.map": "/rightnote/static/js/main.74e60297.js.map",
+    "main.dfcc2a99.css.map": "/rightnote/static/css/main.dfcc2a99.css.map",
+    "main.8d8eeb0f.js.map": "/rightnote/static/js/main.8d8eeb0f.js.map",
     "787.aaa0f4de.chunk.js.map": "/rightnote/static/js/787.aaa0f4de.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3df30091.css",
-    "static/js/main.74e60297.js"
+    "static/css/main.dfcc2a99.css",
+    "static/js/main.8d8eeb0f.js"
   ]
 }
