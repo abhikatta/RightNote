@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 // import { nanoid } from "nanoid";
 import { addDoc, deleteDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db, notesCollection } from "./Firebase/firebase";
@@ -11,15 +11,19 @@ import LightThemeIcon from "./icons/LightThemeIcon";
 import DarkThemeIcon from "./icons/DarkThemeIcon";
 import SideBarIcon from "./icons/SideBarIcon";
 import Login from "./screens/Login";
+import EmbeddedFrame from "./spotify_thing/Top10Today";
 
 function App() {
-  const [notes, setNotes] = React.useState([]);
-  const [sideBar, setSideBar] = React.useState(
+  const [notes, setNotes] = useState([]);
+  const [sideBar, setSideBar] = useState(
     JSON.parse(localStorage.getItem("sidebar")) || false
   );
-  const [currentNoteId, setCurrentNoteId] = React.useState("");
-  const [userID, setUserID] = React.useState(auth.currentUser || null);
-  const [theme, setTheme] = React.useState(
+  const [spotifyEmebed, setSpotifyEmebed] = useState(
+    JSON.parse(localStorage.getItem("spotifyembed")) || false
+  );
+  const [currentNoteId, setCurrentNoteId] = useState("");
+  const [userID, setUserID] = useState(auth.currentUser || null);
+  const [theme, setTheme] = useState(
     JSON.parse(localStorage.getItem("theme")) || "light"
   );
   const toggleTheme = () => {
@@ -28,8 +32,11 @@ function App() {
   const toggleSideBar = () => {
     setSideBar((prevSideBar) => !prevSideBar);
   };
+  const toggleSpotifyEmbed = () => {
+    setSpotifyEmebed((prevSpotifyEmebed) => !prevSpotifyEmebed);
+  };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       // Sync up our local notes array with the snapshot data
       const notesArr = snapshot.docs.map((doc) => ({
@@ -41,12 +48,12 @@ function App() {
     return unsubscribe;
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!currentNoteId) {
       setCurrentNoteId(notes[0]?.id);
     }
   }, [notes, currentNoteId]);
-  React.useEffect(() => {
+  useEffect(() => {
     // localStorage.setItem(`notes`, JSON.stringify(notes));
     localStorage.setItem("sidebar", JSON.stringify(sideBar));
     localStorage.setItem("theme", JSON.stringify(theme));
@@ -84,7 +91,6 @@ function App() {
   */
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
-  // return <Login />;
   return !userID ? (
     <Login theme={theme} toggleTheme={toggleTheme} setUserID={setUserID} />
   ) : notes.length > 0 ? (
@@ -95,30 +101,52 @@ function App() {
             ? "text-slate-600 bg-slate-200"
             : "text-slate-200 bg-slate-600"
         }`}>
-      <div className="flex  specialfont flex-row mx-10 ">
-        <h1 className=" lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
+      <div className="flex specialfont flex-row mx-10 ">
+        <h1 className="lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
           RightNote
         </h1>
-
+        {userID && (
+          <div
+            className={`flex flex-col right-[10%] top-[5%] absolute justify-evenly`}>
+            <p
+              className={`text-center rounded-lg px-2 py-1 mb-10 hover:animate-pulse hover:cursor-pointer
+            ${
+              theme === "light"
+                ? "text-slate-700 bg-slate-300"
+                : "text-slate-300 bg-slate-700"
+            }
+            `}>
+              {userID.displayName
+                ? userID.displayName
+                : userID.email.split("@")[0]}
+            </p>
+            <button
+              className={`rounded-lg  px-2 py-1
+                hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-300
+                 opacity-40
+             ${
+               theme === "light"
+                 ? "text-slate-700 bg-slate-300"
+                 : "text-slate-300 bg-slate-700"
+             }
+            `}
+              onClick={Logout}>
+              Logout
+            </button>
+          </div>
+        )}
         {theme === "light" ? (
           <LightThemeIcon onClick={toggleTheme} theme={theme} />
         ) : (
           <DarkThemeIcon onClick={toggleTheme} theme={theme} />
         )}
-        {userID && (
-          <div className="flex absolute top-[15%] right-[5%] flex-col ">
-            <p className="text-center rounded-lg px-2 py-1">{userID.email}</p>
-            <p className="text-center rounded-lg  px-2 py-1">
-              {userID.displayName
-                ? userID.displayName
-                : userID.email.split("@")[0]}
-            </p>
-            <button className="rounded-lg  px-2 py-1" onClick={Logout}>
-              Logout
-            </button>
-          </div>
-        )}
       </div>
+      {/* <SideBarIcon
+        onClick={toggleSpotifyEmbed}
+        sideBar={spotifyEmebed}
+        theme={theme}
+      /> */}
+      <EmbeddedFrame spotifyEmebed={spotifyEmebed} theme={theme} />
 
       <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
         <SideBarIcon onClick={toggleSideBar} sideBar={sideBar} theme={theme} />
