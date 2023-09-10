@@ -6,7 +6,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-
 import { auth } from "../Firebase/firebase";
 import GoogleIcon from "../icons/GoogleLogin";
 import LightThemeIcon from "../icons/LightThemeIcon";
@@ -79,8 +78,18 @@ function Login({ theme, toggleTheme, setUserID }) {
       ) : (
         <DarkThemeIcon onClick={toggleTheme} theme={theme} />
       )}
-
-      <h1 className="text-5xl font-light absolute  top-[10%]">RightNote</h1>
+      <div className="flex flex-row top-[10%] absolute">
+        <img
+          className="items-center justify-center "
+          src="https://img.icons8.com/?size=1x&id=nhRO70R1MM5K&format=png"
+          width={70}
+          alt="Logo"
+          height={70}
+        />
+        <div className="text-center flex flex-col justify-center">
+          <h1 className="text-5xl font-light text-center">RightNote</h1>
+        </div>
+      </div>
       <h2
         className={`font-bold text-4xl text-center mb-4
       ${
@@ -93,7 +102,6 @@ function Login({ theme, toggleTheme, setUserID }) {
       </h2>
       <form
         className={`flex flex-col items-center justify-center h-auto w-auto px-3 py-5
-    group 
       ${
         theme === "light"
           ? "text-slate-600 bg-slate-200"
