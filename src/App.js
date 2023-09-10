@@ -18,9 +18,7 @@ function App() {
     JSON.parse(localStorage.getItem("sidebar")) || false
   );
   const [currentNoteId, setCurrentNoteId] = React.useState("");
-  const [userID, setUserID] = React.useState(
-    (auth.currentUser && auth.currentUser.uid) || null
-  );
+  const [userID, setUserID] = React.useState(auth.currentUser || null);
   const [theme, setTheme] = React.useState(
     JSON.parse(localStorage.getItem("theme")) || "light"
   );
@@ -74,7 +72,6 @@ function App() {
 
   const Logout = () => {
     try {
-      alert("Are you sure you want to logout?");
       signOut(auth);
       setUserID(null);
       console.log("Logged out");
@@ -82,6 +79,9 @@ function App() {
       setUserID(error.message);
     }
   };
+  /* TODO:
+  - Fix: notes merge conflict for all users
+  */
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
   // return <Login />;
@@ -107,9 +107,14 @@ function App() {
         )}
         {userID && (
           <div className="flex absolute top-[15%] right-[5%] flex-col ">
-            {/* <p className="rounded-lg bg-slate-800">{userID}</p> */}
-            <p className="rounded-lg bg-slate-800">{userID && userID.email}</p>
-            <p className="rounded-lg bg-slate-800">{userID.displayName}</p>
+            <p className="text-center rounded-lg bg-slate-800 px-2 py-1">
+              {userID.email}
+            </p>
+            <p className="text-center rounded-lg bg-slate-800 px-2 py-1">
+              {userID.displayName
+                ? userID.displayName
+                : userID.email.split("@")[0]}
+            </p>
             <button
               className="rounded-lg bg-slate-800 px-2 py-1"
               onClick={Logout}>
