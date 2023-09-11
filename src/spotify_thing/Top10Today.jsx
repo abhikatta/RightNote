@@ -1,25 +1,14 @@
-const EmbeddedFrame = ({ theme, spotifyEmebed }) => {
+const EmbeddedFrame = ({ theme }) => {
   const playlistId = "4ojtKirkS3qdKvFETouEEH";
   return (
-    // <iframe
-    //   className={` rounded-xl`}
-    //   title="Spotify Embed: My Recommendation Playlist for today"
-    //   src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=${
-    //     theme === "dark" ? 0 : 1
-    //   }`}
-    //   width="100%"
-    //   height="100%"
-    //   style={{ minHeight: spotifyEmebed ? "400px" : " 50px" }}
-    //   allow="autoplay; clipboard-write;  fullscreen; picture-in-picture"
-    //   loading="eager"
-    // />
     <iframe
+      title="My recommended spotify playlist"
       className="rounded-xl"
-      src={`https://open.spotify.com/embed/playlist/4ojtKirkS3qdKvFETouEEH?utm_source=generator&theme=${
+      src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=${
         theme === "dark" ? 0 : 1
       }
       `}
-      style={{ minHeight: "200px" }}
+      style={{ minHeight: "200px", minWidth: "450px" }}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"></iframe>
   );

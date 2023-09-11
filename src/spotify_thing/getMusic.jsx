@@ -1,3 +1,5 @@
+// From spotify:
+// Understanding how the spotify embed works:
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
 const token =
   "BQDFImoabTZ1OWCAtpyLksnL1BKQrH_2e-3PXtjZ1B0oaYWWRMo8J4NUvqQn3Bg3iKN4W4AJqR_NIs0OBgLcC9RvFBbbcWFDKBU1BKC6cIt23hcuSbXpeinOwwKnvpzR692GdCgxa13DZmyTaHRNsmDys5pbzV--9hlK5eu-eezX-phpOb-eruC9rlTpirFAE9-6s7eX5B_TjZiAZfjGbnSyMNFH_M4oVupRZkPw6weTU7H5o-Oa_WBJBw0-UcewaDKigkGCFWIOmLROLuldL-VQ";
@@ -67,8 +69,7 @@ console.log(
 );
 
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
-const token =
-  "BQDFImoabTZ1OWCAtpyLksnL1BKQrH_2e-3PXtjZ1B0oaYWWRMo8J4NUvqQn3Bg3iKN4W4AJqR_NIs0OBgLcC9RvFBbbcWFDKBU1BKC6cIt23hcuSbXpeinOwwKnvpzR692GdCgxa13DZmyTaHRNsmDys5pbzV--9hlK5eu-eezX-phpOb-eruC9rlTpirFAE9-6s7eX5B_TjZiAZfjGbnSyMNFH_M4oVupRZkPw6weTU7H5o-Oa_WBJBw0-UcewaDKigkGCFWIOmLROLuldL-VQ";
+
 async function fetchWebApi(endpoint, method, body) {
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
     headers: {
