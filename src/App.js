@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 // import { nanoid } from "nanoid";
 import { addDoc, deleteDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db, notesCollection } from "./Firebase/firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 import "./index.css";
 import SideBar from "./components/SideBar";
@@ -35,7 +35,17 @@ function App() {
   const toggleSpotifyEmbed = () => {
     setSpotifyEmebed((prevSpotifyEmebed) => !prevSpotifyEmebed);
   };
-
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserID(user);
+      // ...
+    } else {
+      // User is signed out
+      // ...
+      auth.signOut();
+      setUserID(null);
+    }
+  });
   useEffect(() => {
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -77,15 +87,6 @@ function App() {
     await deleteDoc(docRef);
   }
 
-  const Logout = () => {
-    try {
-      signOut(auth);
-      setUserID(null);
-      console.log("Logged out");
-    } catch (error) {
-      setUserID(error.message);
-    }
-  };
   /* TODO:
   - Fix: notes merge conflict for all users
   */
@@ -105,23 +106,23 @@ function App() {
         <h1 className="lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
           RightNote
         </h1>
-        {userID && (
-          <div
-            className={`flex flex-col right-[10%] top-[5%] absolute justify-evenly`}>
-            <p
-              className={`text-center rounded-lg px-2 py-1 mb-10 hover:animate-pulse hover:cursor-pointer
+
+        <div
+          className={`flex flex-col right-[10%] top-[5%] absolute justify-evenly`}>
+          <p
+            className={`text-center rounded-lg px-2 py-1 mb-10 hover:animate-pulse hover:cursor-pointer
             ${
               theme === "light"
                 ? "text-slate-700 bg-slate-300"
                 : "text-slate-300 bg-slate-700"
             }
             `}>
-              {userID.displayName
-                ? userID.displayName
-                : userID.email.split("@")[0]}
-            </p>
-            <button
-              className={`rounded-lg  px-2 py-1
+            {userID.displayName
+              ? userID.displayName
+              : userID.email.split("@")[0]}
+          </p>
+          <button
+            className={`rounded-lg  px-2 py-1
                 hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-300
                  opacity-40
              ${
@@ -130,11 +131,11 @@ function App() {
                  : "text-slate-300 bg-slate-700"
              }
             `}
-              onClick={Logout}>
-              Logout
-            </button>
-          </div>
-        )}
+            onClick={() => auth.signOut()}>
+            Logout
+          </button>
+        </div>
+
         {theme === "light" ? (
           <LightThemeIcon onClick={toggleTheme} theme={theme} />
         ) : (
