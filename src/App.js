@@ -55,6 +55,7 @@ function App() {
   //     setUserID(null);
   //   }
   // });
+
   useEffect(() => {
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -164,8 +165,8 @@ function App() {
           className={`sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10
               ${
                 !sideBar
-                  ? "scale-0 transition-transform duration-500"
-                  : "scale-100 transition-transform duration-500"
+                  ? "w-0 transition-all duration-500"
+                  : " w-28 transition-all duration-500"
               }
               `}>
           {sideBar && (
