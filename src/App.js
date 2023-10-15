@@ -55,7 +55,6 @@ function App() {
   //     setUserID(null);
   //   }
   // });
-
   useEffect(() => {
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       // Sync up our local notes array with the snapshot data
@@ -162,7 +161,7 @@ function App() {
       <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
         <SideBarIcon onClick={toggleSideBar} sideBar={sideBar} theme={theme} />
         <div
-          className={`sm:flex flex-row sm:flex-col w-[10rem] max-w-[15rem] sm:mr-10
+          className={`sm:flex flex-row sm:flex-col max-w-[15rem] sm:mr-10
               ${
                 !sideBar
                   ? "w-0 transition-all duration-500"

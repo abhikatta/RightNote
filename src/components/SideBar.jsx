@@ -17,7 +17,7 @@ export default function Sidebar(props) {
         <svg
           version="1.0"
           onClick={() => props.deleteNote(note.id)}
-          className={` hover:cursor-pointer mx-2 w-[1rem] sm:relative absolute right-1 sm:right-0 bg-none h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
+          className={` hover:cursor-pointer mx-2 w-[1rem] sm:relative overflow-visible absolute right-1 sm:right-0 bg-none h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
             ${
               props.theme === "light"
                 ? "bg-slate-300 "
@@ -49,7 +49,7 @@ export default function Sidebar(props) {
   ));
 
   return (
-    <section className="flex flex-col text-center ">
+    <section className="flex flex-col text-center items-center mr-10 pr-4">
       <div className="flex flex-row pb-6 justify-center ">
         <h3 className="text-4xl mr-5">Notes</h3>
         <svg
@@ -74,7 +74,9 @@ export default function Sidebar(props) {
           </g>
         </svg>
       </div>
-      <div className=" px-2 py-1">{noteElements}</div>
+      <div className=" py-1 w-[10rem] max-h-[500px] rounded-xl overflow-auto">
+        {noteElements}
+      </div>
     </section>
   );
 }
