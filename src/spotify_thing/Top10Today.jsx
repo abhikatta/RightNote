@@ -7,7 +7,7 @@ const EmbeddedFrame = () => {
       // style={{ minHeight: "200px", minWidth: "450px" }}
 
       title="My recommended spotify playlist"
-      className="rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] min-w-[430px]"
+      className="rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] md:min-w-[530px] lg:min-w-[630px]  min-w-[230px]"
       src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
       allow="atoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
   );

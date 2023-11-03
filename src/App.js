@@ -20,6 +20,7 @@ import DarkThemeIcon from "./icons/DarkThemeIcon";
 import SideBarIcon from "./icons/SideBarIcon";
 import Login from "./screens/Login";
 import EmbeddedFrame from "./spotify_thing/Top10Today";
+import { decryptText, encryptText } from "./utils/cryption";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -39,7 +40,9 @@ function App() {
     setSideBar((prevSideBar) => !prevSideBar);
   };
 
-  // A bit modified Solution from the stackoverflow gods for fixing the local state changes freezing:
+  // A bit modified Solution from the stackoverflow gods for fixing the
+  // local state changes freezing:
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -62,10 +65,13 @@ function App() {
         );
         const unsubscribe = onSnapshot(q, function (snapshot) {
           // Sync up our local notes array with the snapshot data
-          const notesArr = snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
+          const notesArr = snapshot.docs.map((doc) => {
+            const decryptedBody = decryptText(doc.data().body); // Decrypt the body property
+            return {
+              body: decryptedBody,
+              id: doc.id,
+            };
+          });
           setNotes(notesArr);
         });
         return unsubscribe;
@@ -80,15 +86,17 @@ function App() {
       setCurrentNoteId(notes[0]?.id);
     }
   }, [notes, currentNoteId]);
+
   useEffect(() => {
     // localStorage.setItem(`notes`, JSON.stringify(notes));
     localStorage.setItem("sidebar", JSON.stringify(sideBar));
     localStorage.setItem("theme", JSON.stringify(theme));
   }, [theme, sideBar]);
+
   // Function to create a new note for the authenticated user
   const createNewNote = async () => {
     const newNote = {
-      body: `# Title`,
+      body: encryptText("Write your note here..".toString()),
       id: userID.uid,
     };
     try {
@@ -98,16 +106,19 @@ function App() {
       console.log(error);
     }
   };
+
   async function updateNote(text) {
     try {
+      const encryptedText = encryptText(text); // Encrypt the updated text
       const docRef = doc(notesCollection, currentNoteId);
       await updateDoc(docRef, {
-        body: text,
+        body: encryptedText,
       });
     } catch (error) {
       console.log(error);
     }
   }
+
   async function deleteNote(noteId) {
     try {
       const docRef = doc(notesCollection, noteId);
@@ -135,11 +146,10 @@ function App() {
           RightNote
         </h1>
         {userID && (
-          <div
-            className={`flex flex-col right-[10%] top-[5%] absolute justify-evenly`}>
+          <div className={` flex flex-col  justify-evenly`}>
             <p
               className={`text-center rounded-lg px-2 right-3 top-3 py-1 hover:animate-pulse hover:cursor-pointer
-              
+              md:right-[14rem] md:top-[10rem] 
             ${
               theme === "light"
                 ? "text-slate-700 bg-slate-300"

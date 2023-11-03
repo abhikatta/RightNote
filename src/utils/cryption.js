@@ -1,5 +1,5 @@
 // import { KEYS } from "../Keys";
-const CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 const KEYS = { CRYPTOKEY: "34dsa3r" };
 function encryptText(originalText) {
   var encryptedText = CryptoJS.AES.encrypt(
