@@ -73,21 +73,24 @@ function Login({ theme, toggleTheme, setUserID }) {
          : "text-slate-200 bg-slate-600"
      }
     `}>
-      {theme === "light" ? (
-        <LightThemeIcon onClick={toggleTheme} theme={theme} />
-      ) : (
-        <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-      )}
-      <div className="flex flex-row top-[10%] absolute">
-        <img
-          className="items-center justify-center "
-          src="https://img.icons8.com/?size=1x&id=nhRO70R1MM5K&format=png"
-          width={70}
-          alt="Logo"
-          height={70}
-        />
-        <div className="text-center flex flex-col justify-center">
+      <div className="w-[80%] flex flex-row top-[10%] items-center justify-center absolute">
+        <div className="flex flex-row items-center">
+          <img
+            className=""
+            src="https://img.icons8.com/?size=1x&id=nhRO70R1MM5K&format=png"
+            width={70}
+            alt="Logo"
+            height={70}
+          />
+
           <h1 className="text-5xl font-light text-center">RightNote</h1>
+        </div>
+        <div className="right-[10%] absolute">
+          {theme === "light" ? (
+            <LightThemeIcon onClick={toggleTheme} theme={theme} />
+          ) : (
+            <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+          )}
         </div>
       </div>
       <h2

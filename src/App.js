@@ -205,7 +205,11 @@ function App() {
         </div>
       )}
 
-      {spotifyEmbed && <EmbeddedFrame />}
+      {spotifyEmbed && (
+        <div>
+          <EmbeddedFrame />
+        </div>
+      )}
 
       <div className="flex md:flex-row flex-col md:items-baseline items-center  ">
         <div
@@ -250,11 +254,13 @@ function App() {
         <h1 className="text-5xl font-bold absolute top-[35%] my-10">
           RightNote
         </h1>
-        {theme === "light" ? (
-          <LightThemeIcon onClick={toggleTheme} theme={theme} />
-        ) : (
-          <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-        )}
+        <div className="absolute right-[15%] top-[15%]">
+          {theme === "light" ? (
+            <LightThemeIcon onClick={toggleTheme} theme={theme} />
+          ) : (
+            <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+          )}
+        </div>
         <button
           className={`font-bold text-xl absolute top-[50%] rounded-md px-2 py-1
         ${
