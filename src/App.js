@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import app from "../package.json";
 import {
   addDoc,
   deleteDoc,
@@ -17,11 +17,10 @@ import SideBar from "./components/SideBar";
 import NoteEditor from "./components/NoteEditor";
 import LightThemeIcon from "./icons/LightThemeIcon";
 import DarkThemeIcon from "./icons/DarkThemeIcon";
-import SideBarIcon from "./icons/SideBarIcon";
 import Login from "./screens/Login";
 import EmbeddedFrame from "./spotify_thing/Top10Today";
 import { decryptText, encryptText } from "./utils/cryption";
-import SpotifyEmbedIcon from "./icons/SpotifyEmbedIcon";
+import CoolNavBar from "./components/Navbar.jsx/NavBar";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -158,53 +157,17 @@ function App() {
           className={`w-[90%] rounded-xl h-[3rem]  flex flex-row justify-evenly items-center
           ${theme === "light" ? "bg-slate-300" : "bg-slate-400"}
           `}>
-          <div title={`Toggle side bar ${sideBar ? "off" : "on"}`}>
-            <SideBarIcon
-              onClick={toggleSideBar}
-              sideBar={sideBar}
-              theme={theme}
-            />
-          </div>
-          <div title={`Turn on ${theme === "light" ? "dark" : "light"} mode`}>
-            {theme === "light" ? (
-              <LightThemeIcon onClick={toggleTheme} theme={theme} />
-            ) : (
-              <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-            )}
-          </div>
-          <div title={`Toggle spotify player ${spotifyEmbed ? "off" : "on"}`}>
-            <SpotifyEmbedIcon
-              toggledOff={spotifyEmbed}
-              onClick={handleSpotifyEmbed}
-              theme={theme}
-            />
-          </div>
-
-          <div>
-            <p
-              title="Your username"
-              className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
-            ${theme === "dark" ? "text-slate-900 " : "text-slate-700 "}
-            `}>
-              {userID && userID.displayName
-                ? userID.displayName
-                : userID.email.split("@")[0]}
-            </p>
-          </div>
-          <div>
-            <button
-              title="Logout of the current account"
-              className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
-              hover:scale-110 duration-200 transition-transform
-                  text-slate-200 bg-slate-800
-            `}
-              onClick={() => auth.signOut()}>
-              Logout
-            </button>
-          </div>
+          <CoolNavBar
+            theme={theme}
+            toggleSideBar={toggleSideBar}
+            toggleTheme={toggleTheme}
+            sideBar={sideBar}
+            spotifyEmbed={spotifyEmbed}
+            handleSpotifyEmbed={handleSpotifyEmbed}
+            userID={userID}
+          />
         </div>
       )}
-
       {spotifyEmbed && (
         <div>
           <EmbeddedFrame />
@@ -241,6 +204,18 @@ function App() {
           </div>
         )}
       </div>
+      <footer
+        className={`
+        absolute bottom-0
+      ${theme === "light" ? "text-slate-600" : "text-slate-200"}
+      `}>
+        <a
+          className="hover:underline duration-300 transition-all underline-offset-4"
+          href="https://github.com/abhikatta/rightnote">
+          Github
+        </a>
+        <p>v{app.version}</p>
+      </footer>
     </div>
   ) : (
     <div
