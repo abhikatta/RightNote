@@ -4,8 +4,7 @@ const DarkThemeIcon = ({ onClick, theme }) => {
   return (
     <svg
       version="1.0"
-      className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute top-[2.5rem] right-[3rem] md:top-[3.5rem] md:left-[12rem] duration-200 rounded-[40%]
-
+      className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 top-[2.5rem] right-[3rem] md:top-[3.5rem] md:left-[12rem] duration-200 rounded-[40%]
 
             ${
               theme === "light"

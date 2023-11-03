@@ -142,43 +142,46 @@ function App() {
             : "text-slate-200 bg-slate-600"
         }`}>
       <div className="flex specialfont flex-row mx-10 ">
-        <h1 className="lg:text-6xl md:text-6xl sm:text-5xl text-4xl font-bold my-10">
+        <h1 className="lg:text-6xl md:text-6xl sm:text-5xl text-6xl font-bold my-10">
           RightNote
         </h1>
-        {userID && (
-          <div className={` flex flex-col  justify-evenly`}>
-            <p
-              className={`text-center rounded-lg px-2 right-3 top-3 py-1 hover:animate-pulse hover:cursor-pointer
-              md:right-[14rem] md:top-[10rem] 
-            ${
-              theme === "light"
-                ? "text-slate-700 bg-slate-300"
-                : "text-slate-300 bg-slate-700"
-            }
-            `}>
-              {userID.displayName
-                ? userID.displayName
-                : userID.email.split("@")[0]}
-            </p>
-            <button
-              className={`text-center rounded-lg px-2 right-3 mt-[1rem] py-1 hover:cursor-pointer
-             ${
-               theme === "light"
-                 ? "text-slate-700 bg-slate-300"
-                 : "text-slate-300 bg-slate-700"
-             }
-            `}
-              onClick={() => auth.signOut()}>
-              Logout
-            </button>
-          </div>
-        )}
-        {theme === "light" ? (
-          <LightThemeIcon onClick={toggleTheme} theme={theme} />
-        ) : (
-          <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-        )}
       </div>
+      {/* <div className=" lg:right-[4rem] sm:scale-75 md:scale-100 scale-75 right-[0.5rem] top-[2.5rem] lg:scale-100 lg:my-[3.5rem] md:right-[3rem] md:my-[3.5rem] sm:right-[1rem] sm:my-[3rem]"> */}
+
+      {userID && (
+        <div
+          className={`w-[90%] rounded-xl h-[3rem]  flex flex-row justify-evenly items-center
+          ${theme === "light" ? "bg-slate-300" : "bg-slate-400"}
+          `}>
+          <SideBarIcon
+            onClick={toggleSideBar}
+            sideBar={sideBar}
+            theme={theme}
+          />
+          {theme === "light" ? (
+            <LightThemeIcon onClick={toggleTheme} theme={theme} />
+          ) : (
+            <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+          )}
+          <p
+            className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
+            ${theme === "dark" ? "text-slate-900 " : "text-slate-700 "}
+            `}>
+            {userID && userID.displayName
+              ? userID.displayName
+              : userID.email.split("@")[0]}
+          </p>
+          <button
+            className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
+              hover:scale-110 duration-200 transition-transform
+                  text-slate-200 bg-slate-800
+            `}
+            onClick={() => auth.signOut()}>
+            Logout
+          </button>
+        </div>
+      )}
+
       {/* <SideBarIcon
         onClick={toggleSpotifyEmbed}
         sideBar={spotifyEmebed}
@@ -186,10 +189,9 @@ function App() {
       /> */}
       <EmbeddedFrame theme={theme} />
 
-      <div className="flex md:flex-row flex-col md:items-baseline items-center ">
-        <SideBarIcon onClick={toggleSideBar} sideBar={sideBar} theme={theme} />
+      <div className="flex md:flex-row flex-col md:items-baseline items-center  ">
         <div
-          className={`sm:flex flex-row sm:flex-col max-w-[15rem] 
+          className={`sm:flex flex-row sm:flex-col max-w-[15rem] mr-10
               ${
                 !sideBar
                   ? "w-0 transition-all duration-500"
@@ -207,15 +209,15 @@ function App() {
             />
           )}
         </div>
-        <div className="">
-          {currentNoteId && notes.length > 0 && (
+        {currentNoteId && notes.length > 0 && (
+          <div>
             <NoteEditor
               theme={theme}
               currentNote={currentNote}
               updateNote={updateNote}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   ) : (
