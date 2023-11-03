@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
-import { addDoc, deleteDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
-import { auth, db, notesCollection } from "./Firebase/firebase";
+
+import {
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+  updateDoc,
+} from "firebase/firestore";
+import { auth, notesCollection } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import "./index.css";
@@ -44,28 +53,27 @@ function App() {
     return unsubscribe;
   }, []);
 
-  // Problem with using this:
-  // local states of sideBar and theme don't work properly. It works in a weird way, hence above solution
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     setUserID(user);
-  //     toggleSideBar();
-  //   } else {
-  //     auth.signOut();
-  //     setUserID(null);
-  //   }
-  // });
   useEffect(() => {
-    const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
-      // Sync up our local notes array with the snapshot data
-      const notesArr = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setNotes(notesArr);
-    });
-    return unsubscribe;
-  }, []);
+    try {
+      if (userID) {
+        const q = query(
+          notesCollection,
+          where("id", "==", auth.currentUser.uid)
+        );
+        const unsubscribe = onSnapshot(q, function (snapshot) {
+          // Sync up our local notes array with the snapshot data
+          const notesArr = snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setNotes(notesArr);
+        });
+        return unsubscribe;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [userID]);
 
   useEffect(() => {
     if (!currentNoteId) {
@@ -81,24 +89,32 @@ function App() {
   const createNewNote = async () => {
     const newNote = {
       body: `# Title`,
+      id: userID.uid,
     };
-    // const docRef = doc(db, `${userID.uid}`, currentNoteId);
-    // const newNoteRef = await addDoc();
-    const newNoteRef = await addDoc(notesCollection, newNote);
-    setCurrentNoteId(newNoteRef.id);
+    try {
+      const newNoteRef = await addDoc(notesCollection, newNote);
+      setCurrentNoteId(newNoteRef.id);
+    } catch (error) {
+      console.log(error);
+    }
   };
   async function updateNote(text) {
-    const docRef = doc(db, `notes`, currentNoteId);
-    await setDoc(docRef, { body: text }, { merge: true });
+    // const docRef = doc(db, `notes`, currentNoteId);
+    const docRef = doc(notesCollection, currentNoteId);
+    await updateDoc(docRef, {
+      body: text,
+    });
   }
   async function deleteNote(noteId) {
-    const docRef = doc(db, `notes`, noteId);
-    await deleteDoc(docRef);
+    try {
+      const docRef = doc(notesCollection, noteId);
+      await deleteDoc(docRef);
+      console.log("Journal deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting journal entry:", error);
+    }
   }
 
-  /* TODO:
-  - Fix: notes merge conflict for all users
-  */
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
   return !userID ? (
