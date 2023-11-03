@@ -21,9 +21,11 @@ import SideBarIcon from "./icons/SideBarIcon";
 import Login from "./screens/Login";
 import EmbeddedFrame from "./spotify_thing/Top10Today";
 import { decryptText, encryptText } from "./utils/cryption";
+import SpotifyEmbedIcon from "./icons/SpotifyEmbedIcon";
 
 function App() {
   const [notes, setNotes] = useState([]);
+
   const [sideBar, setSideBar] = useState(
     JSON.parse(localStorage.getItem("sidebar")) || false
   );
@@ -33,9 +35,11 @@ function App() {
   const [theme, setTheme] = useState(
     JSON.parse(localStorage.getItem("theme")) || "light"
   );
+  const [spotifyEmbed, SetSpotifyEmbed] = useState(true);
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
+
   const toggleSideBar = () => {
     setSideBar((prevSideBar) => !prevSideBar);
   };
@@ -106,7 +110,9 @@ function App() {
       console.log(error);
     }
   };
-
+  function handleSpotifyEmbed() {
+    SetSpotifyEmbed((prevToggle) => !prevToggle);
+  }
   async function updateNote(text) {
     try {
       const encryptedText = encryptText(text); // Encrypt the updated text
@@ -146,48 +152,60 @@ function App() {
           RightNote
         </h1>
       </div>
-      {/* <div className=" lg:right-[4rem] sm:scale-75 md:scale-100 scale-75 right-[0.5rem] top-[2.5rem] lg:scale-100 lg:my-[3.5rem] md:right-[3rem] md:my-[3.5rem] sm:right-[1rem] sm:my-[3rem]"> */}
 
       {userID && (
         <div
           className={`w-[90%] rounded-xl h-[3rem]  flex flex-row justify-evenly items-center
           ${theme === "light" ? "bg-slate-300" : "bg-slate-400"}
           `}>
-          <SideBarIcon
-            onClick={toggleSideBar}
-            sideBar={sideBar}
-            theme={theme}
-          />
-          {theme === "light" ? (
-            <LightThemeIcon onClick={toggleTheme} theme={theme} />
-          ) : (
-            <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-          )}
-          <p
-            className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
+          <div title={`Toggle side bar ${sideBar ? "off" : "on"}`}>
+            <SideBarIcon
+              onClick={toggleSideBar}
+              sideBar={sideBar}
+              theme={theme}
+            />
+          </div>
+          <div title={`Turn on ${theme === "light" ? "dark" : "light"} mode`}>
+            {theme === "light" ? (
+              <LightThemeIcon onClick={toggleTheme} theme={theme} />
+            ) : (
+              <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+            )}
+          </div>
+          <div title={`Toggle spotify player ${spotifyEmbed ? "off" : "on"}`}>
+            <SpotifyEmbedIcon
+              toggledOff={spotifyEmbed}
+              onClick={handleSpotifyEmbed}
+              theme={theme}
+            />
+          </div>
+
+          <div>
+            <p
+              title="Your username"
+              className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
             ${theme === "dark" ? "text-slate-900 " : "text-slate-700 "}
             `}>
-            {userID && userID.displayName
-              ? userID.displayName
-              : userID.email.split("@")[0]}
-          </p>
-          <button
-            className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
+              {userID && userID.displayName
+                ? userID.displayName
+                : userID.email.split("@")[0]}
+            </p>
+          </div>
+          <div>
+            <button
+              title="Logout of the current account"
+              className={`text-center rounded-lg px-3 py-2 hover:cursor-pointer              
               hover:scale-110 duration-200 transition-transform
                   text-slate-200 bg-slate-800
             `}
-            onClick={() => auth.signOut()}>
-            Logout
-          </button>
+              onClick={() => auth.signOut()}>
+              Logout
+            </button>
+          </div>
         </div>
       )}
 
-      {/* <SideBarIcon
-        onClick={toggleSpotifyEmbed}
-        sideBar={spotifyEmebed}
-        theme={theme}
-      /> */}
-      <EmbeddedFrame theme={theme} />
+      {spotifyEmbed && <EmbeddedFrame />}
 
       <div className="flex md:flex-row flex-col md:items-baseline items-center  ">
         <div
