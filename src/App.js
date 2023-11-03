@@ -51,7 +51,7 @@ function App() {
       }
     });
     return unsubscribe;
-  }, []);
+  }, [userID]);
 
   useEffect(() => {
     try {
@@ -92,18 +92,21 @@ function App() {
       id: userID.uid,
     };
     try {
-      const newNoteRef = await addDoc(notesCollection, newNote);
-      setCurrentNoteId(newNoteRef.id);
+      await addDoc(notesCollection, newNote);
+      setCurrentNoteId(newNote.id);
     } catch (error) {
       console.log(error);
     }
   };
   async function updateNote(text) {
-    // const docRef = doc(db, `notes`, currentNoteId);
-    const docRef = doc(notesCollection, currentNoteId);
-    await updateDoc(docRef, {
-      body: text,
-    });
+    try {
+      const docRef = doc(notesCollection, currentNoteId);
+      await updateDoc(docRef, {
+        body: text,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   async function deleteNote(noteId) {
     try {
@@ -135,7 +138,8 @@ function App() {
           <div
             className={`flex flex-col right-[10%] top-[5%] absolute justify-evenly`}>
             <p
-              className={`text-center rounded-lg px-2 py-1 mb-10 hover:animate-pulse hover:cursor-pointer
+              className={`text-center rounded-lg px-2 right-3 top-3 py-1 hover:animate-pulse hover:cursor-pointer
+              
             ${
               theme === "light"
                 ? "text-slate-700 bg-slate-300"
@@ -147,9 +151,7 @@ function App() {
                 : userID.email.split("@")[0]}
             </p>
             <button
-              className={`rounded-lg  px-2 py-1
-                hover:opacity-100 hover:scale-110 cursor-pointer transition-all duration-300
-                 opacity-40
+              className={`text-center rounded-lg px-2 right-3 mt-[1rem] py-1 hover:cursor-pointer
              ${
                theme === "light"
                  ? "text-slate-700 bg-slate-300"
@@ -174,14 +176,14 @@ function App() {
       /> */}
       <EmbeddedFrame theme={theme} />
 
-      <div className="flex sm:flex-row flex-col sm:items-baseline items-center sm:mx-10 mx-3">
+      <div className="flex md:flex-row flex-col md:items-baseline items-center ">
         <SideBarIcon onClick={toggleSideBar} sideBar={sideBar} theme={theme} />
         <div
-          className={`sm:flex flex-row sm:flex-col max-w-[15rem] sm:mr-10
+          className={`sm:flex flex-row sm:flex-col max-w-[15rem] 
               ${
                 !sideBar
                   ? "w-0 transition-all duration-500"
-                  : " w-28 transition-all duration-500"
+                  : "w-28 transition-all duration-500"
               }
               `}>
           {sideBar && (

@@ -3,7 +3,7 @@ export default function Sidebar(props) {
   const noteElements = props.notes.map((note, index) => (
     <div key={note.id}>
       <div
-        className={`flex flex-row sm:justify-between justify-center items-center hover:cursor-pointer
+        className={`flex flex-row  justify-between items-center hover:cursor-pointer
           ${
             note.id === props.currentNote.id
               ? "bg-slate-300 rounded-md text-[black] font-semibold"
@@ -17,7 +17,7 @@ export default function Sidebar(props) {
         <svg
           version="1.0"
           onClick={() => props.deleteNote(note.id)}
-          className={` hover:cursor-pointer mx-2 w-[1rem] sm:relative overflow-visible absolute right-1 sm:right-0 bg-none h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
+          className={` hover:cursor-pointer mx-2 w-[1rem] relative overflow-visible right-1   bg-none h-[1rem] hover:scale-110 transition-transform duration-200 rounded-[40%] 
             ${
               props.theme === "light"
                 ? "bg-slate-300 "

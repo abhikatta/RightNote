@@ -5,7 +5,7 @@ const LightThemeIcon = ({ onClick, theme }) => {
     <svg
       version="1.0"
       onClick={onClick}
-      className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute md:top-[3.5rem] top-[2.5rem] md:right-[5rem] right-[2rem] duration-200 rounded-[40%]
+      className={`h-[2.5rem] w-[2.5rem] transition-colors p-1 absolute top-[2.5rem] left-[6rem] md:top-[3.5rem] md:left-[12rem] duration-200 rounded-[40%]
       ${
         theme === "light"
           ? "hover:bg-slate-400 bg-slate-300"

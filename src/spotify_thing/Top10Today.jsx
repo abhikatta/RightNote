@@ -1,19 +1,19 @@
-const EmbeddedFrame = ({ theme }) => {
+const EmbeddedFrame = () => {
+  // Authorization token that must have been created previously, either on app or web.
+  // See : https://developer.spotify.com/documentation/web-api/concepts/authorization
   const playlistId = "4ojtKirkS3qdKvFETouEEH";
   return (
     <iframe
+      // style={{ minHeight: "200px", minWidth: "450px" }}
+
       title="My recommended spotify playlist"
-      className="rounded-xl"
-      src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=${
-        theme === "dark" ? 0 : 1
-      }
-      `}
-      style={{ minHeight: "200px", minWidth: "450px" }}
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"></iframe>
+      className="rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] min-w-[430px]"
+      src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
+      allow="atoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
   );
 };
 export default EmbeddedFrame;
+
 // https://open.spotify.com/playlist/37i9dQZF1EpudJHVqvpCgt?si=a0b77655f49e4b2b
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
 // const token = 'BQA9zsA6dt9p7HuK016HBGVeCkT2CVc80KbW24PnhLDF4vJnBKMxKvwwUMdBFu_254btfobakTj_Epd5S63lsaJaBqRtBk-rKdhYGaOnJmoGFqPSfAnxk0zUfUgOs4AemW0NllR2TIEt61vlSN72OJ5eCnDD00F_CD1Nu5yEtZtjETCzdCqMXiqWWqauBZ5Q5lXKueaBfCmSuyENu8bRDDGchOXskWT84kzyCjjpZbvYIQBRAjuDp9my_qQdm6gmzFbleUFA_f-PIH5T9HzFTTjX';
