@@ -1,15 +1,17 @@
-const EmbeddedFrame = () => {
+const EmbeddedFrame = ({ spotifyEmbed }) => {
   // Authorization token that must have been created previously, either on app or web.
   // See : https://developer.spotify.com/documentation/web-api/concepts/authorization
   const playlistId = "4ojtKirkS3qdKvFETouEEH";
   return (
-    <iframe
-      // style={{ minHeight: "200px", minWidth: "450px" }}
-
-      title="My recommended spotify playlist"
-      className="rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] md:min-w-[530px] lg:min-w-[630px]  min-w-[230px]"
-      src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
-      allow="atoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    <div className={`${spotifyEmbed ? "scale-100 " : " hidden"}`}>
+      <iframe
+        // style={{ minHeight: "200px", minWidth: "450px" }}
+        title="My recommended spotify playlist"
+        className={`rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] md:min-w-[530px] lg:min-w-[630px]  min-w-[230px]
+      `}
+        src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
   );
 };
 export default EmbeddedFrame;

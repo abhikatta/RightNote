@@ -140,7 +140,7 @@ function App() {
     <Login theme={theme} toggleTheme={toggleTheme} setUserID={setUserID} />
   ) : notes.length > 0 ? (
     <div
-      className={`flex flex-col specialfont items-center w-full h-full min-h-screen min-w-screen
+      className={`flex flex-col specialfont items-center w-full h-full justify-center
         ${
           theme === "light"
             ? "text-slate-600 bg-slate-200"
@@ -168,15 +168,14 @@ function App() {
           />
         </div>
       )}
-      {spotifyEmbed && (
-        <div>
-          <EmbeddedFrame />
-        </div>
-      )}
 
-      <div className="flex md:flex-row flex-col md:items-baseline items-center  ">
+      <div>
+        <EmbeddedFrame spotifyEmbed={spotifyEmbed} />
+      </div>
+
+      <div className="flex md:flex-row sm:flex-row lg:flex-row flex-col md:items-baseline sm:items-baseline lg:items-baseline items-center  ">
         <div
-          className={`sm:flex flex-row sm:flex-col max-w-[15rem] mr-10
+          className={`
               ${
                 !sideBar
                   ? "w-0 transition-all duration-500"
@@ -206,7 +205,7 @@ function App() {
       </div>
       <footer
         className={`
-        absolute bottom-0
+         bottom-0
       ${theme === "light" ? "text-slate-600" : "text-slate-200"}
       `}>
         <a
@@ -229,7 +228,7 @@ function App() {
         <h1 className="text-5xl font-bold absolute top-[35%] my-10">
           RightNote
         </h1>
-        <div className="absolute right-[15%] top-[15%]">
+        <div className="absolute right-[15%] top-[15%] ">
           {theme === "light" ? (
             <LightThemeIcon onClick={toggleTheme} theme={theme} />
           ) : (

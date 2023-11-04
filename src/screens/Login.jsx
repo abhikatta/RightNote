@@ -82,16 +82,15 @@ function Login({ theme, toggleTheme, setUserID }) {
             alt="Logo"
             height={70}
           />
-
           <h1 className="text-5xl font-light text-center">RightNote</h1>
         </div>
-        <div className="right-[10%] absolute">
-          {theme === "light" ? (
-            <LightThemeIcon onClick={toggleTheme} theme={theme} />
-          ) : (
-            <DarkThemeIcon onClick={toggleTheme} theme={theme} />
-          )}
-        </div>
+      </div>
+      <div className="sm:right-[10%] sm:top-[10%]  md:right-[10%] lg::right-[10%] right-[5%] top-[5%] absolute">
+        {theme === "light" ? (
+          <LightThemeIcon onClick={toggleTheme} theme={theme} />
+        ) : (
+          <DarkThemeIcon onClick={toggleTheme} theme={theme} />
+        )}
       </div>
       <h2
         className={`font-bold text-4xl text-center mb-4
