@@ -5,33 +5,48 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase";
 import GoogleIcon from "../icons/GoogleLogin";
 import LightThemeIcon from "../icons/LightThemeIcon";
 import DarkThemeIcon from "../icons/DarkThemeIcon";
 function Login({ theme, toggleTheme, setUserID }) {
+  const [Username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
   const [signUp, setSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState(auth.currentUser || null);
   async function Signup(e) {
     e.preventDefault();
+
     setLoading(true);
-    try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(response);
-      setUserID(response.user);
-      // setUser(response.user);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
+    if (
+      password.length > 0 &&
+      setConfirmPassword.length > 0 &&
+      setPassword === setConfirmPassword &&
+      Username.length > 0 &&
+      email.length > 0
+    ) {
+      try {
+        const response = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await updateProfile(auth.currentUser, { displayName: Username });
+        console.log(response);
+        setUserID(response.user);
+        // setUser(response.user);
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please fill in all details correctly.");
     }
   }
   async function Login(e) {
@@ -122,8 +137,39 @@ function Login({ theme, toggleTheme, setUserID }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        {signUp && (
+          <>
+            <input
+              placeholder="Username"
+              type="text"
+              className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
+              value={Username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              placeholder="Password"
+              type="password"
+              className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </>
+        )}
         <input
-          placeholder="Password"
+          placeholder="Confirm Password"
           type="password"
           className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
           ${
@@ -132,9 +178,10 @@ function Login({ theme, toggleTheme, setUserID }) {
               : "text-slate-300 bg-slate-700"
           }
           `}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={confirmpassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
+
         <div
           className={`rounded-lg cursor-pointer hover:-translate-y-0.5 transition-transform duration-200 px-2 py-1 my-1
           ${
