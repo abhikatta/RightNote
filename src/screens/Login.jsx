@@ -139,37 +139,22 @@ function Login({ theme, toggleTheme, setUserID }) {
         />
 
         {signUp && (
-          <>
-            <input
-              placeholder="Username"
-              type="text"
-              className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
+          <input
+            placeholder="Username"
+            type="text"
+            className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
           ${
             theme === "light"
               ? "text-slate-700 bg-slate-300"
               : "text-slate-300 bg-slate-700"
           }
           `}
-              value={Username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
-          ${
-            theme === "light"
-              ? "text-slate-700 bg-slate-300"
-              : "text-slate-300 bg-slate-700"
-          }
-          `}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </>
+            value={Username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         )}
         <input
-          placeholder="Confirm Password"
+          placeholder="Password"
           type="password"
           className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
           ${
@@ -178,9 +163,24 @@ function Login({ theme, toggleTheme, setUserID }) {
               : "text-slate-300 bg-slate-700"
           }
           `}
-          value={confirmpassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
+        {signUp && (
+          <input
+            placeholder="Confirm Password"
+            type="password"
+            className={` my-2 px-3 h-10 w-auto py-1 outline-none focus:outline-none rounded-lg
+          ${
+            theme === "light"
+              ? "text-slate-700 bg-slate-300"
+              : "text-slate-300 bg-slate-700"
+          }
+          `}
+            value={confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        )}
 
         <div
           className={`rounded-lg cursor-pointer hover:-translate-y-0.5 transition-transform duration-200 px-2 py-1 my-1

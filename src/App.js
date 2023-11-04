@@ -103,8 +103,8 @@ function App() {
       id: userID.uid,
     };
     try {
-      await addDoc(notesCollection, newNote);
-      setCurrentNoteId(newNote.id);
+      const newNoteRef = await addDoc(notesCollection, newNote);
+      setCurrentNoteId(newNoteRef.id);
     } catch (error) {
       console.log(error);
     }
