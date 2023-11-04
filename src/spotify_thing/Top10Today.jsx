@@ -7,7 +7,11 @@ const EmbeddedFrame = ({ spotifyEmbed }) => {
       <iframe
         // style={{ minHeight: "200px", minWidth: "450px" }}
         title="My recommended spotify playlist"
-        className={`rounded-xl min-h-[200px] xs:py-[2rem] pt-10 mb-4 sm:min-w-[430px] md:min-w-[530px] lg:min-w-[630px]  min-w-[230px]
+        className={`
+        sm:min-w-[35rem] md:min-w-[45rem] lg:min-w-[55rem] min-w-[22rem]
+        sm:min-h-[15rem] md:min-h-[22rem] lg:min-h-[30rem] min-h-[12rem]
+        rounded-xl sm:mt-6 md:mt-4 lg:mt-6 mt-8
+
       `}
         src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>

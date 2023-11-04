@@ -6,7 +6,7 @@ const SideBarIcon = ({ onClick, sideBar, theme }) => {
       onClick={onClick}
       version="1.0"
       className={`h-[2.5rem] w-[2.5rem] transition-all p-1 md:top-[3.5rem] top-[2.5rem] md:left-[5rem] left-[2rem] duration-200 rounded-[40%]
-          ${sideBar ? "md:rotate-0 rotate-90" : "md:rotate-180 -rotate-90"}  
+          ${sideBar ? "lg:rotate-0 rotate-90" : "lg:rotate-180 -rotate-90"}  
           ${theme === "light" ? "hover:bg-slate-400 " : "hover:bg-slate-300 "}`}
       xmlns="http://www.w3.org/2000/svg"
       width="100.000000pt"

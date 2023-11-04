@@ -49,8 +49,8 @@ export default function Sidebar(props) {
   ));
 
   return (
-    <section className="flex flex-col text-center items-center mr-10 pr-4">
-      <div className="flex flex-row pb-6 justify-center ">
+    <section className="flex flex-col text-center items-center sm:mr-10 md:mr-10 lg:mr-10 pr-4">
+      <div className="flex flex-row  pb-6 justify-center ">
         <h3 className="text-4xl mr-5">Notes</h3>
         <svg
           version="1.0"

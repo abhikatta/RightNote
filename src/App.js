@@ -173,7 +173,13 @@ function App() {
         <EmbeddedFrame spotifyEmbed={spotifyEmbed} />
       </div>
 
-      <div className="flex md:flex-row sm:flex-row lg:flex-row flex-col md:items-baseline sm:items-baseline lg:items-baseline items-center  ">
+      {/* <div className="flex md:flex-row sm:flex-col lg:flex-row flex-col md:items-baseline sm:items-baseline lg:items-baseline items-center  "> */}
+      <div
+        className={`
+        flex sm:flex-col md:flex-col lg:flex-row flex-col
+        lg:items-baseline items-center
+        my-4
+        `}>
         <div
           className={`
               ${

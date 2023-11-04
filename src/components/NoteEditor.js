@@ -13,7 +13,7 @@ function NoteEditor({ currentNote, updateNote, theme }) {
         className={`
         mx-2 my-2
         sm:min-h-[40rem] md:min-h-[40rem] lg:min-h-[40rem] min-h-[40rem]
-        sm:min-w-[35rem] md:min-w-[45rem] lg:min-w-[65rem] min-w-[10rem]
+        sm:min-w-[35rem] md:min-w-[45rem] lg:min-w-[60rem] min-w-[10rem]
 
         `}
       />
